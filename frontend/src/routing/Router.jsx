@@ -4,8 +4,7 @@ import Home from '../pages/Home'
 import SignIn from '../pages/SignIn'
 import User from '../pages/User'
 import Error from '../pages/Error'
-
-const username = 'Tony Jarvis'
+import Edit from '../pages/Edit'
 
 const router = createBrowserRouter([
 	{
@@ -18,12 +17,15 @@ const router = createBrowserRouter([
 				element: <Home />,
 			},
 			{
-				path: 'sign-in',
+				path: 'login',
 				element: <SignIn />,
 			},
 			{
-				path: 'user',
-				element: <User username={username} />,
+				path: 'profile',
+				children: [
+					{ index: true, element: <User /> },
+					{ path: 'edit', element: <Edit /> },
+				],
 			},
 		],
 	},

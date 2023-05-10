@@ -1,6 +1,6 @@
 import Banner from '../components/Banner'
 import Feature from '../components/Feature'
-import features from '../utils/content/features'
+import features from '../utils/mockup/features'
 
 function Home() {
 	document.title = 'Argent Bank - Home Page'

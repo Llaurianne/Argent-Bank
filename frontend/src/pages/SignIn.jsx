@@ -1,11 +1,20 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUser, logUser } from '../features/user'
+import { selectUser } from '../utils/selectors'
+import { Navigate } from 'react-router-dom'
 
 function SignIn() {
 	document.title = 'Argent Bank - Sign in'
-	const [loading, setLoading] = useState(false)
+
 	const [checked, setChecked] = useState(false)
+
+	const user = useSelector(selectUser)
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const handleChange = () => {
 		setChecked(!checked)
@@ -13,41 +22,21 @@ function SignIn() {
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		setLoading(true)
-		localStorage.setItem('token', '')
-		sessionStorage.setItem('token', '')
+		localStorage.clear()
+		sessionStorage.clear()
 		const form = e.target
 		const formData = new FormData(form)
 		const loginData = Object.fromEntries(formData.entries())
-		try {
-			const response = await fetch(
-				'http://localhost:3001/api/v1/user/login',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(loginData),
-				}
-			)
-			const data = await response.json()
-			if (checked) {
-				localStorage.setItem('token', data.body.token)
-			} else {
-				sessionStorage.setItem('token', data.body.token)
-			}
-		} catch (err) {
-			console.log('===== error =====', err)
-		} finally {
-			setLoading(false)
-			console.log('local ' + localStorage.getItem('token'))
-			console.log('session ' + sessionStorage.getItem('token'))
-		}
+		await dispatch(logUser(loginData, checked))
+		dispatch(fetchUser())
+		navigate('/profile')
 	}
 
 	return (
 		<main className="main bg-dark">
-			{!loading ? (
+			{user.status === 'resolved' && user.data.status === 200 ? (
+				<Navigate to="/profile" />
+			) : (
 				<section className="sign-in-content">
 					<FontAwesomeIcon icon={faUserCircle} />
 					<h1>Sign In</h1>
@@ -79,8 +68,6 @@ function SignIn() {
 						</button>
 					</form>
 				</section>
-			) : (
-				<p>Loading...</p>
 			)}
 		</main>
 	)

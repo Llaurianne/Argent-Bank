@@ -21,6 +21,10 @@ html {
   background-color: #12002b;
 }
 
+.bg-light {
+  background-color: #dfe6ed;
+}
+
 .sr-only {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
@@ -229,6 +233,10 @@ html {
   margin-bottom: 2rem;
 }
 
+.account-light {
+  border: 1px solid #c1cfc9;
+}
+
 .account-amount {
   margin: 0;
   font-size: 2.5rem;
@@ -264,6 +272,10 @@ html {
   margin-bottom: 2rem;
 }
 
+.header-light {
+  color: #263845;
+}
+
 .transaction-button {
   display: block;
   width: 100%;
@@ -274,6 +286,12 @@ html {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+}
+
+.transaction-button-light {
+  border: solid 2px #6357f6;
+  border-radius: 5px;
+  background-color: #6357f6;
 }
 
 @media (min-width: 720px) {

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { faBug } from '@fortawesome/free-solid-svg-icons'
 import Header from '../components/Header'
@@ -21,6 +21,7 @@ const StyledIcon = styled(FontAwesomeIcon)`
 
 function Error() {
 	document.title = 'Argent Bank - Error'
+
 	return (
 		<>
 			<Header />
