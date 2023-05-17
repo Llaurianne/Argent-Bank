@@ -3,7 +3,7 @@ import AccountOverview from '../components/AccountOverview'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, selectEditMode } from '../utils/selectors'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import * as editModeActions from '../features/editMode'
 import { updateUser } from '../features/user'
 import styled from 'styled-components'
@@ -53,10 +53,15 @@ function User() {
 			{user.status === 'rejected' ||
 			(user.status === 'resolved' && user.data.status === 401) ? (
 				<Navigate to="/error" />
-			) : user.status === 'pending' ||
-			  user.status === 'updating' ||
-			  user.status === 'void' ? (
-				<p>Loading...</p>
+			) : user.status === 'pending' || user.status === 'updating' ? (
+				<div className="header">
+					<h1>Loading...</h1>
+				</div>
+			) : user.status === 'void' ? (
+				<div className="header">
+					<h1>Please sign in to access your accounts</h1>
+					<Link to="/login">Go to sign in page</Link>
+				</div>
 			) : (
 				<div className={`header ${editMode ? `header-light` : null}`}>
 					<h1>
@@ -119,14 +124,16 @@ function User() {
 				</div>
 			)}
 			<h2 className="sr-only">Accounts</h2>
-			{accounts.map((acc) => (
-				<AccountOverview
-					key={acc.type}
-					type={acc.type}
-					code={acc.code}
-					balance={acc.balance}
-				/>
-			))}
+			{user.status === 'resolved' && user.data.status === 200
+				? accounts.map((acc) => (
+						<AccountOverview
+							key={acc.type}
+							type={acc.type}
+							code={acc.code}
+							balance={acc.balance}
+						/>
+				  ))
+				: null}
 		</main>
 	)
 }

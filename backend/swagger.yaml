@@ -110,6 +110,147 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /transactions:
+    get:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transactions Module
+      summary: User transactions
+      description: API for fetching user transactions
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transactions retrieved successully
+          schema:
+            $ref: '#/definitions/Transactions'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transactions Module
+      summary: Transaction
+      description: API for fetching one user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction retrieved successully
+          schema:
+            $ref: '#/definitions/SingleTransaction'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transactions Module
+      summary: Transaction
+      description: API for adding new informations to a user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to which information is added
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction informations added successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: [ ]
+      tags:
+        - Transactions Module
+      summary: Transaction
+      description: API for updating a user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to which information is updated
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction informations updated successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: [ ]
+      tags:
+        - User Module
+      summary: Transaction
+      description: API for deleting a user transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to which information is deleted
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction informations deleted successully
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -163,4 +304,48 @@ definitions:
       firstName:
         type: string
       lastName:
+        type: string
+  Transactions:
+    type: array
+    items:
+      type: object
+      properties:
+        userId:
+          type: integer
+          readOnly: true
+        transactionId:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          readOnly: true
+  SingleTransaction:
+    type: object
+    properties:
+      transactionId:
+        type: integer
+        readOnly: true
+      date:
+        type: string
+        format: date
+        readOnly: true
+      description:
+        type: string
+        readOnly: true
+      amount:
+        type: number
+        readOnly: true
+      transactionType:
+        type: string
+        readOnly: true
+      category:
+        type: string
+      notes:
         type: string
