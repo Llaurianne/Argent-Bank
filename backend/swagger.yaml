@@ -191,6 +191,12 @@ paths:
           type: integer
           required: true
           description: Numeric ID of the transaction to which information is added
+        - in: body
+          name: body
+          description: Transaction details
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetails'
       produces:
         - application/json
       responses:
@@ -224,6 +230,12 @@ paths:
           type: integer
           required: true
           description: Numeric ID of the transaction to which information is updated
+        - in: body
+          name: body
+          description: Transaction details
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionDetails'
       produces:
         - application/json
       responses:
@@ -364,6 +376,13 @@ definitions:
       transactionType:
         type: string
         readOnly: true
+      category:
+        type: string
+      notes:
+        type: string
+  TransactionDetails:
+    type: object
+    properties:
       category:
         type: string
       notes:
