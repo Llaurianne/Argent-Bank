@@ -4,7 +4,6 @@ import Home from '../pages/Home'
 import SignIn from '../pages/SignIn'
 import User from '../pages/User'
 import Error from '../pages/Error'
-import Edit from '../pages/Edit'
 
 const router = createBrowserRouter([
 	{
@@ -22,10 +21,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: 'profile',
-				children: [
-					{ index: true, element: <User /> },
-					{ path: 'edit', element: <Edit /> },
-				],
+				element: <User />,
 			},
 		],
 	},

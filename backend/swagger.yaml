@@ -70,6 +70,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -93,6 +94,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: body
           name: body
           description: Update user profile attributes
@@ -110,7 +112,7 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /transactions:
+  /transaction:
     get:
       security:
         - Bearer: [ ]
@@ -123,6 +125,7 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
       produces:
         - application/json
       responses:
@@ -130,11 +133,13 @@ paths:
           description: User transactions retrieved successully
           schema:
             $ref: '#/definitions/Transactions'
-        '400':
-          description: Invalid Fields
+        '401':
+          description: Unauthorized access, invalid token
+        '403':
+          description: Forbidden, access denied
         '500':
           description: Internal Server Error
-  /transactions/{transactionId}:
+  /transaction/{transactionId}:
     get:
       security:
         - Bearer: [ ]
@@ -147,10 +152,10 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: path
           name: transactionId
-          schema:
-            type: integer
+          type: integer
           required: true
           description: Numeric ID of the transaction to get
       produces:
@@ -162,6 +167,10 @@ paths:
             $ref: '#/definitions/SingleTransaction'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized access, invalid token
+        '403':
+          description: Forbidden, access denied
         '500':
           description: Internal Server Error
     post:
@@ -176,10 +185,10 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: path
           name: transactionId
-          schema:
-            type: integer
+          type: integer
           required: true
           description: Numeric ID of the transaction to which information is added
       produces:
@@ -188,9 +197,13 @@ paths:
         '200':
           description: User transaction informations added successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/SingleTransaction'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized access, invalid token
+        '403':
+          description: Forbidden, access denied
         '500':
           description: Internal Server Error
     put:
@@ -205,10 +218,10 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: path
           name: transactionId
-          schema:
-            type: integer
+          type: integer
           required: true
           description: Numeric ID of the transaction to which information is updated
       produces:
@@ -217,16 +230,20 @@ paths:
         '200':
           description: User transaction informations updated successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/SingleTransaction'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized access, invalid token
+        '403':
+          description: Forbidden, access denied
         '500':
           description: Internal Server Error
     delete:
       security:
         - Bearer: [ ]
       tags:
-        - User Module
+        - Transactions Module
       summary: Transaction
       description: API for deleting a user transaction
       parameters:
@@ -234,21 +251,23 @@ paths:
           name: Authorization
           description: Attach Bearer JWT token
           required: true
+          type: string
         - in: path
           name: transactionId
-          schema:
-            type: integer
+          type: integer
           required: true
           description: Numeric ID of the transaction to which information is deleted
       produces:
         - application/json
       responses:
-        '200':
+        '204':
           description: User transaction informations deleted successully
-          schema:
-            $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
+        '401':
+          description: Unauthorized access, invalid token
+        '403':
+          description: Forbidden, access denied
         '500':
           description: Internal Server Error
 securityDefinitions:
